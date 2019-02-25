@@ -17,13 +17,16 @@ public class GridBased extends PApplet {
 
     DashedLines d;
 
-    public void setup() {
+    public void settings() {
 
         size(600, 600);
+    }
+
+    public void setup() {
+
         noFill();
 
         d = new DashedLines(this);
-
 
         int i = 0;
 
@@ -230,5 +233,10 @@ public class GridBased extends PApplet {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+
+        PApplet.main("gridbased.GridBased");
     }
 }
