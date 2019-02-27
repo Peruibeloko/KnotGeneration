@@ -1,26 +1,31 @@
 package objectbased;
 
-import processing.core.*;
+import processing.core.PApplet;
+import processing.core.PVector;
 
-public class Node extends PApplet {
+public class Node {
 
-    private PVector pos;
-    private NodeType type;
-    private Wall[] walls;
+    public static final int PRIMARY = 0;
+    public static final int SECONDARY = 1;
+    public static final int CROSSING = 2;
 
-    public Node(float x, float y) {
+    private PVector pos; // Position of the node in pixels
+    private int[] coord = new int[2]; // Position of the node in the grid
 
-        pos = new PVector(round(x), round(y));
-    }
+    private int type;
 
-    public Wall[] getWalls() {
+    PApplet parent;
 
-        return walls;
-    }
+    public Node(int i, int j, int type, Grid g, PApplet parent) {
 
-    public int hasWalls(){
+        pos = new PVector(parent.round(g.x + g.size * i), parent.round(g.y + g.size * j));
 
-        return walls.length;
+        this.type = type;
+
+        coord[0] = i;
+        coord[1] = j;
+
+        this.parent = parent;
     }
 
     PVector getPos(){
@@ -28,13 +33,13 @@ public class Node extends PApplet {
         return pos;
     }
 
-    NodeType getType(){
+    int getType(){
 
         return type;
     }
 
-    private void addWall(Wall wall){
+    int[] getCoord(){
 
-        walls[walls.length + 1] = wall;
+        return coord;
     }
 }
