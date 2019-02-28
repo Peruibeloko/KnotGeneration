@@ -24,10 +24,12 @@ public class ObjectBased extends PApplet {
         pilot = new Pilot(grid);
         knot = new Knot(pilot, grid, this);
 
-        grid.addWall(grid.getNode(0,0), grid.getNode(w,0));
-        grid.addWall(grid.getNode(0,0), grid.getNode(0,h));
-        grid.addWall(grid.getNode(w,h), grid.getNode(w,0));
-        grid.addWall(grid.getNode(w,h), grid.getNode(0,h));
+        grid.addWall(grid.getNode(0,0), grid.getNode(w,0), pilot);
+        grid.addWall(grid.getNode(0,0), grid.getNode(0,h), pilot);
+        grid.addWall(grid.getNode(w,h), grid.getNode(w,0), pilot);
+        grid.addWall(grid.getNode(w,h), grid.getNode(0,h), pilot);
+
+        grid.addWall(grid.getNode(w/2,2), grid.getNode(w/2, 6), pilot);
     }
 
     public void draw() {

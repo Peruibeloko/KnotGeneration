@@ -2,11 +2,11 @@ package objectbased;
 
 import processing.core.PVector;
 
-public class Pilot {
+public class Pilot implements CollisionHandler{
 
     // A pilot is a moving point
 
-    private boolean overUnder = true;
+    private boolean isOver = true;
 
     PVector pos; // X and Y positions
     PVector vel; // X and Y speeds
@@ -28,9 +28,9 @@ public class Pilot {
         vel = new PVector(1, 1);
     }
 
-    public boolean isOverUnder() {
+    public boolean isOver() {
 
-        return overUnder;
+        return isOver;
     }
 
     void movePilot(){
@@ -47,15 +47,18 @@ public class Pilot {
      * -1 = No collision
      */
 
-    void collidePilot(int direction){
+    @Override
+    public void collisionEvent(int direction){
 
         if (direction == 0) {
 
             vel.x = -vel.x;
+            g.parent.println("Collided with vertical wall");
 
         } else if (direction == 1) {
 
             vel.y = -vel.y;
+            g.parent.println("Collided with horizontal wall");
         }
     }
 
@@ -66,11 +69,11 @@ public class Pilot {
 
                 if ((pos == g.getNode(i, j).getPos()) && (g.getNode(i, j).getType() == Node.CROSSING)) {
 
-                    overUnder = !overUnder;
+                    isOver = !isOver;
                 }
             }
         }
 
-        return overUnder;
+        return isOver;
     }
 }

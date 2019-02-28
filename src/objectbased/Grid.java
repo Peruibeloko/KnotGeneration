@@ -12,7 +12,7 @@ public class Grid {
     int size; // length of each wall
 
     private Node[][] nodes;
-    private ArrayList<Wall> walls = new ArrayList<Wall>();
+    private ArrayList<Wall> walls = new ArrayList<>();
 
     PGraphics gridImage;
     PApplet parent;
@@ -66,12 +66,12 @@ public class Grid {
     void checkCollision(Pilot p){
 
         for(Wall w : walls)
-            p.collidePilot(w.isColliding(p.pos));
+            w.collisionEmmit(p.pos);
     }
 
-    void addWall(Node start, Node end){
+    void addWall(Node start, Node end, Pilot pilot){
 
-        walls.add(new Wall(start, end));
+        walls.add(new Wall(start, end, pilot));
     }
 
     void drawGrid(int gridColor, int nodeColor){
