@@ -6,7 +6,7 @@ public class Pilot {
 
     // A pilot is a moving point
 
-    private boolean overUnder = false;
+    private boolean overUnder = true;
 
     PVector pos; // X and Y positions
     PVector vel; // X and Y speeds
@@ -25,7 +25,7 @@ public class Pilot {
         this.g = g;
 
         pos = new PVector(g.getNode(2,1).getPos().x, g.getNode(2,1).getPos().y);
-        vel = new PVector(5, 5);
+        vel = new PVector(1, 1);
     }
 
     public boolean isOverUnder() {
@@ -56,7 +56,6 @@ public class Pilot {
         } else if (direction == 1) {
 
             vel.y = -vel.y;
-
         }
     }
 

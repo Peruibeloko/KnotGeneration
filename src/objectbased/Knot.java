@@ -15,13 +15,15 @@ public class Knot {
 
         this.parent = parent;
 
-        knotImage = parent.createGraphics(g.w * g.size, g.h * g.size);
+        knotImage = parent.createGraphics(parent.width, parent.height);
 
         pilot = p;
         grid = g;
     }
 
     public void drawKnot(){
+
+        knotImage.beginDraw();
 
         if(pilot.setFlag()) {
 
@@ -37,6 +39,8 @@ public class Knot {
             knotImage.point(pilot.pos.x, pilot.pos.y);
             knotImage.popStyle();
         }
+
+        knotImage.endDraw();
 
         pilot.movePilot();
     }
