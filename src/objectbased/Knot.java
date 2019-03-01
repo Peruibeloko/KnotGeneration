@@ -5,23 +5,21 @@ import processing.core.PGraphics;
 
 public class Knot {
 
-    PApplet parent;
+    private PApplet parent;
     PGraphics knotImage; // Graphics object used to store knot drawing
 
     private Pilot pilot;
-    private Grid grid;
 
-    public Knot(Pilot p, Grid g, PApplet parent){
+    public Knot(Pilot p, PApplet parent){
 
         this.parent = parent;
 
         knotImage = parent.createGraphics(parent.width, parent.height);
 
         pilot = p;
-        grid = g;
     }
 
-    public void drawKnot(){
+    void drawKnot(){
 
         knotImage.beginDraw();
 
@@ -34,7 +32,7 @@ public class Knot {
             knotImage.popStyle();
 
             knotImage.pushStyle();
-            knotImage.strokeWeight(10);
+            knotImage.strokeWeight(8);
             knotImage.stroke(255);
             knotImage.point(pilot.pos.x, pilot.pos.y);
             knotImage.popStyle();

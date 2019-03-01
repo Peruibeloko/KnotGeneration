@@ -1,63 +1,76 @@
 package objectbased;
 
-import processing.core.*;
+class Wall {
 
-import java.util.ArrayList;
-
-public class Wall {
-
-    public static final int HORIZONTAL = 0;
-    public static final int VERTICAL = 1;
+    private static final int HORIZONTAL = 0;
+    private static final int VERTICAL = 1;
 
     private Node[] nodes = new Node[2];
     private int type;
+    private Pilot pilot;
 
-    private ArrayList<CollisionHandler> listeners = new ArrayList<CollisionHandler>();
-
-
-    public Wall(Node start, Node end, Pilot pilot){
+    Wall(Node start, Node end, Pilot pilot){
 
         if (start.getType() == end.getType()) {
 
-            if (start.getCoord()[0] == end.getCoord()[0])
-                type = HORIZONTAL;
-            else
+            if (start.getCoord()[0] == end.getCoord()[0]) // If x coordinate is the same between both nodes, its a vertical wall
                 type = VERTICAL;
+            else
+                type = HORIZONTAL;
 
             nodes[0] = start;
             nodes[1] = end;
         }
 
-        listeners.add(pilot);
+        this.pilot = pilot;
     }
 
-    public Node getNode(int i) {
+    Node getNode(int i) {
 
         return nodes[i];
     }
 
-    void collisionEmmit(PVector pos) {
+    void collisionEmmit() {
 
-        if (type == VERTICAL &&
-                pos.x == nodes[0].getPos().x &&
-                pos.y >= nodes[0].getPos().y &&
-                pos.y <= nodes[1].getPos().y) {
+        if (type == VERTICAL) { // if wall is vertical
 
-            for (CollisionHandler ch : listeners)
-                ch.collisionEvent(0);
+            if (pilot.pos.x == nodes[0].getPos().x){ // If pilot is in wall (horizontally)
 
-        } else if (type == HORIZONTAL &&
-                pos.y == nodes[0].getPos().y &&
-                pos.x >= nodes[0].getPos().x &&
-                pos.x <= nodes[1].getPos().x) {
+                if (nodes[1].getPos().y > nodes[0].getPos().y) { // If second node of wall is beneath first
+                    
+                    if (pilot.pos.y >= nodes[0].getPos().y && pilot.pos.y <= nodes[1].getPos().y) { // If pilot is in wall span
+                        
+                        pilot.collisionEvent(0);
+                    }
 
-            for (CollisionHandler ch : listeners)
-                ch.collisionEvent(1);
+                } else { // If second node of wall is on top of first
 
-        } else {
+                    if (pilot.pos.y >= nodes[1].getPos().y && pilot.pos.y <= nodes[0].getPos().y) { // If pilot is in wall span
 
-            for (CollisionHandler ch : listeners)
-                ch.collisionEvent(-1);
+                        pilot.collisionEvent(0);
+                    }
+                }
+            }
+
+        } else { // If wall is horizontal
+
+            if (pilot.pos.y == nodes[0].getPos().y){ // If pilot is in wall (vertically)
+
+                if (nodes[1].getPos().x > nodes[0].getPos().x) { // If second node of wall is to the right of first
+
+                    if (pilot.pos.x >= nodes[0].getPos().x && pilot.pos.x <= nodes[1].getPos().x) { // If pilot is in wall span
+
+                        pilot.collisionEvent(1);
+                    }
+
+                } else { // If second node of wall is to the left of first
+
+                    if (pilot.pos.x >= nodes[1].getPos().x && pilot.pos.x <= nodes[0].getPos().x) { // If pilot is in wall span
+
+                        pilot.collisionEvent(1);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,17 +1,19 @@
 package objectbased;
 
+import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Pilot implements CollisionHandler{
+public class Pilot {
 
     // A pilot is a moving point
 
     private boolean isOver = true;
+    int colCount = 0;
 
     PVector pos; // X and Y positions
-    PVector vel; // X and Y speeds
+    private PVector vel; // X and Y speeds
 
-    Grid g;
+    private Grid g;
 
     /**
      * Uses first grid crossing node as starting condition
@@ -28,11 +30,6 @@ public class Pilot implements CollisionHandler{
         vel = new PVector(1, 1);
     }
 
-    public boolean isOver() {
-
-        return isOver;
-    }
-
     void movePilot(){
 
         pos.x += vel.x;
@@ -47,18 +44,19 @@ public class Pilot implements CollisionHandler{
      * -1 = No collision
      */
 
-    @Override
-    public void collisionEvent(int direction){
+    void collisionEvent(int direction){
 
         if (direction == 0) {
 
             vel.x = -vel.x;
-            g.parent.println("Collided with vertical wall");
+            PApplet.println("Collided with vertical wall");
+            colCount++;
 
         } else if (direction == 1) {
 
             vel.y = -vel.y;
-            g.parent.println("Collided with horizontal wall");
+            PApplet.println("Collided with horizontal wall");
+            colCount++;
         }
     }
 

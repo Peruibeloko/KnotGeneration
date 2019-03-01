@@ -5,7 +5,7 @@ import processing.core.PGraphics;
 
 import java.util.ArrayList;
 
-public class Grid {
+class Grid {
 
     float x, y; // X-Y coordinates for the grid
     int w, h; // size of the grid in wall units (spaces between nodes)
@@ -15,9 +15,8 @@ public class Grid {
     private ArrayList<Wall> walls = new ArrayList<>();
 
     PGraphics gridImage;
-    PApplet parent;
 
-    public Grid(float x, float y, int w, int h, int size, PApplet parent) {
+    Grid(float x, float y, int w, int h, int size, PApplet parent) {
 
         this.x = x;
         this.y = y;
@@ -31,42 +30,36 @@ public class Grid {
             for(int i = 0; i <= w; i++) {
 
                 if (i % 2 == 0 && j % 2 == 0) {
-                    nodes[i][j] = new Node(i, j, Node.PRIMARY, this, parent);
-                    parent.print("+ ");
 
-                } else if (((i % 2 != 0 && j % 2 == 0) || (i % 2 == 0 && j % 2 != 0)) &&
-                        ((i > 0 && i < w) && (j > 0 && j < h))) {
+                    nodes[i][j] = new Node(i, j, Node.PRIMARY, this);
 
-                    nodes[i][j] = new Node(i, j, Node.CROSSING, this, parent);
-                    parent.print("X ");
+                } else if (((i % 2 != 0 && j % 2 == 0) || (i % 2 == 0 && j % 2 != 0)) && ((i > 0 && i < w) && (j > 0 && j < h))) {
+
+                    nodes[i][j] = new Node(i, j, Node.CROSSING, this);
 
                 } else {
-                    nodes[i][j] = new Node(i, j, Node.SECONDARY, this, parent);
-                    parent.print("  ");
+
+                    nodes[i][j] = new Node(i, j, Node.SECONDARY, this);
                 }
             }
-            parent.println("");
         }
 
         gridImage = parent.createGraphics(parent.width, parent.height);
-        this.parent = parent;
     }
 
-    public Node getNode(int i, int j) {
+    Node getNode(int i, int j) {
 
         return nodes[i][j];
     }
 
     /**
      * Checks the pilot collision against every wall
-     * @param p
-     * Pilot reference
      */
 
-    void checkCollision(Pilot p){
+    void checkCollision(){
 
         for(Wall w : walls)
-            w.collisionEmmit(p.pos);
+            w.collisionEmmit();
     }
 
     void addWall(Node start, Node end, Pilot pilot){

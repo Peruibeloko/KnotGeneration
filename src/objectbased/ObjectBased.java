@@ -4,14 +4,14 @@ import processing.core.PApplet;
 
 public class ObjectBased extends PApplet {
 
-    int gridColor = color(255, 127, 0);
-    int nodeColor = color(0, 127, 255);
+    private int gridColor = color(255, 127, 0);
+    private int nodeColor = color(0, 127, 255);
 
-    int w = 10, h = 8, size = 30;
+    private int w = 10, h = 8, size = 30;
 
-    Grid grid;
-    Pilot pilot;
-    Knot knot;
+    private Grid grid;
+    private Pilot pilot;
+    private Knot knot;
 
     public void settings(){
 
@@ -22,7 +22,7 @@ public class ObjectBased extends PApplet {
 
         grid = new Grid(50, 50, w, h, size, this);
         pilot = new Pilot(grid);
-        knot = new Knot(pilot, grid, this);
+        knot = new Knot(pilot, this);
 
         grid.addWall(grid.getNode(0,0), grid.getNode(w,0), pilot);
         grid.addWall(grid.getNode(0,0), grid.getNode(0,h), pilot);
@@ -42,7 +42,12 @@ public class ObjectBased extends PApplet {
         knot.drawKnot();
         image(knot.knotImage, 0, 0);
 
-        grid.checkCollision(pilot);
+        grid.checkCollision();
+
+        String pilotPos = pilot.pos.x + ", " + pilot.pos.y;
+        text("Pilot position: " + pilotPos, 20, 20);
+
+        text("Collision count: " + pilot.colCount, 20, 40);
 
         stroke(255);
         strokeWeight(12);
