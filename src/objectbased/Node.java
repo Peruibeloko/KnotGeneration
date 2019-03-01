@@ -11,6 +11,7 @@ class Node {
 
     private PVector pos; // Position of the node in pixels
     private int[] coord = new int[2]; // Position of the node in the grid
+    private Pilot pilot;
 
     private int type;
 
@@ -24,18 +25,35 @@ class Node {
         coord[1] = j;
     }
 
-    PVector getPos(){
+    PVector getPos() {
 
         return pos;
     }
 
-    int getType(){
+    int getType() {
 
         return type;
     }
 
-    int[] getCoord(){
+    int[] getCoord() {
 
         return coord;
+    }
+
+    void setPilot(Pilot pilot) {
+
+        this.pilot = pilot;
+    }
+
+    void checkDraw() {
+
+        if ((type == CROSSING) &&
+                (PApplet.round(pilot.pos.x) <= PApplet.round(pos.x)) &&
+                (PApplet.round(pilot.overhead.x) >= PApplet.round(pos.x)) &&
+                (PApplet.round(pilot.pos.y) <= PApplet.round(pos.y)) &&
+                (PApplet.round(pilot.overhead.y) >= PApplet.round(pos.y))
+                )
+
+            pilot.collisionEvent(2);
     }
 }

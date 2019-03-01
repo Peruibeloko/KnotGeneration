@@ -24,10 +24,10 @@ class Grid {
         this.h = h;
         this.size = size;
 
-        nodes = new Node[w+1][h+1];
+        nodes = new Node[w + 1][h + 1];
 
-        for(int j = 0; j <= h; j++) {
-            for(int i = 0; i <= w; i++) {
+        for (int j = 0; j <= h; j++) {
+            for (int i = 0; i <= w; i++) {
 
                 if (i % 2 == 0 && j % 2 == 0) {
 
@@ -52,22 +52,32 @@ class Grid {
         return nodes[i][j];
     }
 
-    /**
-     * Checks the pilot collision against every wall
-     */
-
-    void checkCollision(){
-
-        for(Wall w : walls)
-            w.collisionEmmit();
-    }
-
-    void addWall(Node start, Node end, Pilot pilot){
+    void addWall(Node start, Node end, Pilot pilot) {
 
         walls.add(new Wall(start, end, pilot));
     }
 
-    void drawGrid(int gridColor, int nodeColor){
+    void checkCollision() {
+
+        for (Wall w : walls)
+            w.collisionEmmit();
+    }
+
+    void shouldIDraw() {
+
+        for (Node[] ni : nodes)
+            for (Node nj : ni)
+                nj.checkDraw();
+    }
+
+    void addPilotToNodes(Pilot pilot) {
+
+        for (Node[] ni : nodes)
+            for (Node nj : ni)
+                nj.setPilot(pilot);
+    }
+
+    void drawGrid(int gridColor, int nodeColor) {
 
         gridImage.beginDraw();
 
@@ -85,13 +95,13 @@ class Grid {
             }
         }
 
-        for (int j = 0; j < h/2; j++) { // big grid
-            for (int i = 0; i < w/2; i++) {
+        for (int j = 0; j < h / 2; j++) { // big grid
+            for (int i = 0; i < w / 2; i++) {
 
                 gridImage.pushStyle();
                 gridImage.stroke(gridColor);
                 gridImage.strokeWeight(6);
-                gridImage.square(i * size*2 + x, j * size*2 + y, size*2);
+                gridImage.square(i * size * 2 + x, j * size * 2 + y, size * 2);
                 gridImage.popStyle();
             }
         }
@@ -123,13 +133,13 @@ class Grid {
             }
         }
 
-        for (Wall w : walls){
+        for (Wall w : walls) {
 
             gridImage.pushStyle();
             gridImage.strokeWeight(12);
             gridImage.stroke(255, 0, 0, 127);
             gridImage.line(w.getNode(0).getPos().x, w.getNode(0).getPos().y,
-                           w.getNode(1).getPos().x, w.getNode(1).getPos().y);
+                    w.getNode(1).getPos().x, w.getNode(1).getPos().y);
             gridImage.popStyle();
         }
 

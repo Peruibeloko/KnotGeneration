@@ -5,14 +5,11 @@ import processing.core.PGraphics;
 
 public class Knot {
 
-    private PApplet parent;
     PGraphics knotImage; // Graphics object used to store knot drawing
 
     private Pilot pilot;
 
     public Knot(Pilot p, PApplet parent){
-
-        this.parent = parent;
 
         knotImage = parent.createGraphics(parent.width, parent.height);
 
@@ -23,7 +20,7 @@ public class Knot {
 
         knotImage.beginDraw();
 
-        if(pilot.setFlag()) {
+        if(pilot.getFlag()) {
 
             knotImage.pushStyle();
             knotImage.strokeWeight(12);

@@ -1,7 +1,10 @@
 package objectbased;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PVector;
+
+import static processing.core.PApplet.abs;
 
 public class Pilot {
 
@@ -11,67 +14,53 @@ public class Pilot {
     int colCount = 0;
 
     PVector pos; // X and Y positions
+    PVector overhead; // overhead of collision
     private PVector vel; // X and Y speeds
 
-    private Grid g;
-
-    /**
-     * Uses first grid crossing node as starting condition
-     *
-     * @param g
-     * Grid Reference
-     */
+    private float space = 5;
 
     public Pilot(Grid g) {
 
-        this.g = g;
+        pos = new PVector(g.getNode(2, 1).getPos().x, g.getNode(2, 1).getPos().y);
+        vel = new PVector(5, 5);
 
-        pos = new PVector(g.getNode(2,1).getPos().x, g.getNode(2,1).getPos().y);
-        vel = new PVector(1, 1);
+        updateOverhead();
     }
 
-    void movePilot(){
+    void movePilot() {
 
         pos.x += vel.x;
         pos.y += vel.y;
+
+        updateOverhead();
     }
 
-    /**
-     * Collides the pilot in some way
-     * @param direction
-     * 0 = Vertical collision
-     * 1 = Horizontal collision
-     * -1 = No collision
-     */
+    void collisionEvent(int type) {
 
-    void collisionEvent(int direction){
-
-        if (direction == 0) {
+        if (type == 0) {
 
             vel.x = -vel.x;
+            updateOverhead();
             PApplet.println("Collided with vertical wall");
             colCount++;
 
-        } else if (direction == 1) {
+        } else if (type == 1) {
 
             vel.y = -vel.y;
+            updateOverhead();
             PApplet.println("Collided with horizontal wall");
             colCount++;
+
         }
     }
 
-    boolean setFlag(){
-
-        for (int j = 0; j < g.h; j++) {
-            for (int i = 0; i < g.w; i++) {
-
-                if ((pos == g.getNode(i, j).getPos()) && (g.getNode(i, j).getType() == Node.CROSSING)) {
-
-                    isOver = !isOver;
-                }
-            }
-        }
+    boolean getFlag() {
 
         return isOver;
+    }
+
+    void updateOverhead(){
+
+        overhead = new PVector(pos.x + (vel.x / abs(vel.x)) * space, pos.y + (vel.y / abs(vel.y)) * space);
     }
 }
