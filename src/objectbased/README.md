@@ -1,5 +1,3 @@
-- Add "Pilot" object
-- Separate pilot velocity between x and y
-- Test x and y collisions separately
-- Since collision nothing more is than inverting velocity in a certain point, check which boudary has been crossed and invert that direction
-- Use an alternating flag to draw pathtrace in a separate PGraphics object as the background
+- Use an alternating flag to draw the pathtrace in a separate PGraphics object as the background
+- This could be done adding "Punch In/Out" nodes in the Grid structure!
+- Be smarter about when to flip a flag (maybe do some research into formal knot theory?)
