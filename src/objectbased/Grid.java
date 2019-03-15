@@ -89,7 +89,7 @@ class Grid {
 
                 gridImage.pushStyle();
                 gridImage.stroke(gridColor, 50);
-                gridImage.strokeWeight(3);
+                gridImage.strokeWeight((float)0.1 * size);
                 gridImage.square(i * size + x, j * size + y, size);
                 gridImage.popStyle();
             }
@@ -100,7 +100,7 @@ class Grid {
 
                 gridImage.pushStyle();
                 gridImage.stroke(gridColor);
-                gridImage.strokeWeight(6);
+                gridImage.strokeWeight((float)0.15 * size);
                 gridImage.square(i * size * 2 + x, j * size * 2 + y, size * 2);
                 gridImage.popStyle();
             }
@@ -113,19 +113,19 @@ class Grid {
 
                     gridImage.pushStyle();
                     gridImage.stroke(nodeColor); // regular blue
-                    gridImage.strokeWeight(8);
+                    gridImage.strokeWeight((float)0.25 * size);
 
                 } else if (nodes[i][j].getType() == Node.CROSSING) {
 
                     gridImage.pushStyle();
                     gridImage.stroke(nodeColor + gridImage.color(63, 63, 0)); // lighter blue
-                    gridImage.strokeWeight(5);
+                    gridImage.strokeWeight((float)0.2 * size);
 
                 } else {
 
                     gridImage.pushStyle();
                     gridImage.stroke(nodeColor + gridImage.color(0, 63, 63)); // green
-                    gridImage.strokeWeight(5);
+                    gridImage.strokeWeight((float)0.2 * size);
                 }
 
                 gridImage.point(i * size + x, j * size + y);
@@ -136,7 +136,7 @@ class Grid {
         for (Wall w : walls) {
 
             gridImage.pushStyle();
-            gridImage.strokeWeight(12);
+            gridImage.strokeWeight((float)0.3 * size);
             gridImage.stroke(255, 0, 0, 127);
             gridImage.line(w.getNode(0).getPos().x, w.getNode(0).getPos().y,
                     w.getNode(1).getPos().x, w.getNode(1).getPos().y);

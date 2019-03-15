@@ -54,6 +54,20 @@ public class Pilot {
         }
     }
 
+    void crossingEvent(Node node){
+
+        if(!node.wasCrossed()){
+
+            node.setWasCrossed(true);
+
+        } else {
+
+
+        }
+
+        isOver = !isOver;
+    }
+
     boolean getFlag() {
 
         return isOver;

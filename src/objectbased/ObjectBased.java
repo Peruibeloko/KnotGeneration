@@ -7,7 +7,7 @@ public class ObjectBased extends PApplet {
     private int gridColor = color(255, 127, 0);
     private int nodeColor = color(0, 127, 255);
 
-    private int w = 10, h = 8, size = 30;
+    private int w = 10, h = 8, size = 50;
 
     private Grid grid;
     private Pilot pilot;
@@ -15,12 +15,12 @@ public class ObjectBased extends PApplet {
 
     public void settings(){
 
-        size(600, 600);
+        size((w+4)*size, (h+4)*size);
     }
 
     public void setup(){
 
-        grid = new Grid(50, 50, w, h, size, this);
+        grid = new Grid(size*2, size*2, w, h, size, this);
         pilot = new Pilot(grid);
         grid.addPilotToNodes(pilot);
         knot = new Knot(pilot, this);
@@ -30,7 +30,7 @@ public class ObjectBased extends PApplet {
         grid.addWall(grid.getNode(w,h), grid.getNode(w,0), pilot);
         grid.addWall(grid.getNode(w,h), grid.getNode(0,h), pilot);
 
-        //grid.addWall(grid.getNode(w/2, 6), grid.getNode(w/2,2), pilot);
+        grid.addWall(grid.getNode(w/2, 6), grid.getNode(w/2,2), pilot);
 
         grid.drawGrid(gridColor, nodeColor);
     }
@@ -51,6 +51,16 @@ public class ObjectBased extends PApplet {
         text("Collision count: " + pilot.colCount, 20, 40);
 
         drawPilot();
+    }
+
+    public void keyPressed(){
+
+        if(key == ' ')
+            if(isLooping())
+                noLoop();
+            else
+                loop();
+
     }
 
     void drawPilot(){

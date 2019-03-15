@@ -14,6 +14,7 @@ class Node {
     private Pilot pilot;
 
     private int type;
+    private boolean wasCrossed = false;
 
     Node(int i, int j, int type, Grid g) {
 
@@ -40,6 +41,14 @@ class Node {
         return coord;
     }
 
+    public boolean wasCrossed() {
+        return wasCrossed;
+    }
+
+    public void setWasCrossed(boolean wasCrossed) {
+        this.wasCrossed = wasCrossed;
+    }
+
     void setPilot(Pilot pilot) {
 
         this.pilot = pilot;
@@ -55,5 +64,11 @@ class Node {
                 )
 
             pilot.collisionEvent(2);
+    }
+
+    void collisionEmmit() {
+
+        if (type == CROSSING)
+            pilot.crossingEvent(this);
     }
 }
