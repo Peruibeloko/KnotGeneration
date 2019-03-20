@@ -65,7 +65,7 @@ public class Pilot {
 
         }
 
-        isOver = !isOver;
+        isOver = !node.wasCrossed();
     }
 
     boolean getFlag() {
