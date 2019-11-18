@@ -1,6 +1,7 @@
 package objectbased;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PGraphics;
 
 import java.util.ArrayList;
@@ -33,10 +34,6 @@ class Grid {
 
                     nodes[i][j] = new Node(i, j, Node.PRIMARY, this);
 
-                } else if (((i % 2 != 0 && j % 2 == 0) || (i % 2 == 0 && j % 2 != 0)) && ((i > 0 && i < w) && (j > 0 && j < h))) {
-
-                    nodes[i][j] = new Node(i, j, Node.CROSSING, this);
-
                 } else {
 
                     nodes[i][j] = new Node(i, j, Node.SECONDARY, this);
@@ -61,20 +58,6 @@ class Grid {
 
         for (Wall w : walls)
             w.collisionEmmit();
-    }
-
-    void shouldIDraw() {
-
-        for (Node[] ni : nodes)
-            for (Node nj : ni)
-                nj.checkDraw();
-    }
-
-    void addPilotToNodes(Pilot pilot) {
-
-        for (Node[] ni : nodes)
-            for (Node nj : ni)
-                nj.setPilot(pilot);
     }
 
     void drawGrid(int gridColor, int nodeColor) {
@@ -113,13 +96,7 @@ class Grid {
 
                     gridImage.pushStyle();
                     gridImage.stroke(nodeColor); // regular blue
-                    gridImage.strokeWeight((float)0.25 * size);
-
-                } else if (nodes[i][j].getType() == Node.CROSSING) {
-
-                    gridImage.pushStyle();
-                    gridImage.stroke(nodeColor + gridImage.color(63, 63, 0)); // lighter blue
-                    gridImage.strokeWeight((float)0.2 * size);
+                    gridImage.strokeWeight((float) 0.25 * size);
 
                 } else {
 
@@ -136,6 +113,7 @@ class Grid {
         for (Wall w : walls) {
 
             gridImage.pushStyle();
+            gridImage.strokeCap(PConstants.SQUARE);
             gridImage.strokeWeight((float)0.3 * size);
             gridImage.stroke(255, 0, 0, 127);
             gridImage.line(w.getNode(0).getPos().x, w.getNode(0).getPos().y,

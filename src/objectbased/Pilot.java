@@ -14,25 +14,23 @@ public class Pilot {
     int colCount = 0;
 
     PVector pos; // X and Y positions
-    PVector overhead; // overhead of collision
     private PVector vel; // X and Y speeds
-
-    private float space = 5;
 
     public Pilot(Grid g) {
 
         pos = new PVector(g.getNode(2, 1).getPos().x, g.getNode(2, 1).getPos().y);
         vel = new PVector(5, 5);
+    }
 
-        updateOverhead();
+    PVector nextPos() {
+
+        return new PVector(pos.x + vel.x, pos.y + vel.y);
     }
 
     void movePilot() {
 
         pos.x += vel.x;
         pos.y += vel.y;
-
-        updateOverhead();
     }
 
     void collisionEvent(int type) {
@@ -40,41 +38,70 @@ public class Pilot {
         if (type == 0) {
 
             vel.x = -vel.x;
-            updateOverhead();
             PApplet.println("Collided with vertical wall");
             colCount++;
 
         } else if (type == 1) {
 
             vel.y = -vel.y;
-            updateOverhead();
             PApplet.println("Collided with horizontal wall");
             colCount++;
 
         }
     }
 
-    void crossingEvent(Node node){
+    void collisionEvent(int type, Wall w) {
 
-        if(!node.wasCrossed()){
+        if (type == 0) {
 
-            node.setWasCrossed(true);
+            PVector newPos = getIntersection(w);
+            pos.x = newPos.x;
+            pos.y = newPos.y;
 
-        } else {
+            vel.x = -vel.x;
+            PApplet.println("Inside vertical wall");
+            colCount++;
 
+        } else if (type == 1) {
 
+            PVector newPos = getIntersection(w);
+            pos.x = newPos.x;
+            pos.y = newPos.y;
+
+            vel.y = -vel.y;
+            PApplet.println("Inside horizontal wall");
+            colCount++;
         }
+    }
 
-        isOver = !node.wasCrossed();
+    PVector getIntersection(Wall w) {
+
+        PVector nextPos = nextPos();
+
+        float x1 = pos.x;
+        float y1 = pos.y;
+
+        float x2 = nextPos.x;
+        float y2 = nextPos.y;
+
+        float x3 = w.getNode(0).getPos().x;
+        float y3 = w.getNode(0).getPos().y;
+
+        float x4 = w.getNode(1).getPos().x;
+        float y4 = w.getNode(1).getPos().y;
+        float commFactor = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+
+        float px = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4);
+        px /= commFactor;
+
+        float py = (x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4);
+        py /= commFactor;
+
+        return new PVector(px, py);
     }
 
     boolean getFlag() {
 
         return isOver;
-    }
-
-    void updateOverhead(){
-
-        overhead = new PVector(pos.x + (vel.x / abs(vel.x)) * space, pos.y + (vel.y / abs(vel.y)) * space);
     }
 }

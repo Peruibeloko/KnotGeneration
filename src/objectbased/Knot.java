@@ -36,7 +36,6 @@ public class Knot {
         }
 
         knotImage.endDraw();
-
         pilot.movePilot();
     }
 }

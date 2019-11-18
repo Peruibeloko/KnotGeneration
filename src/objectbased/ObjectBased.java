@@ -22,7 +22,6 @@ public class ObjectBased extends PApplet {
 
         grid = new Grid(size*2, size*2, w, h, size, this);
         pilot = new Pilot(grid);
-        grid.addPilotToNodes(pilot);
         knot = new Knot(pilot, this);
 
         grid.addWall(grid.getNode(0,0), grid.getNode(w,0), pilot);
@@ -30,7 +29,7 @@ public class ObjectBased extends PApplet {
         grid.addWall(grid.getNode(w,h), grid.getNode(w,0), pilot);
         grid.addWall(grid.getNode(w,h), grid.getNode(0,h), pilot);
 
-        grid.addWall(grid.getNode(w/2, 6), grid.getNode(w/2,2), pilot);
+        grid.addWall(grid.getNode(w/2, 3), grid.getNode(w/2,5), pilot);
 
         grid.drawGrid(gridColor, nodeColor);
     }
@@ -42,9 +41,7 @@ public class ObjectBased extends PApplet {
 
         knot.drawKnot();
         image(knot.knotImage, 0, 0);
-
         grid.checkCollision();
-        grid.shouldIDraw();
 
         String pilotPos = pilot.pos.x + ", " + pilot.pos.y;
         text("Pilot position: " + pilotPos, 20, 20);
@@ -67,9 +64,6 @@ public class ObjectBased extends PApplet {
 
         stroke(255);
         strokeWeight(12);
-        point(pilot.pos.x, pilot.pos.y);
-        strokeWeight(8);
-        line(pilot.pos.x, pilot.pos.y, pilot.overhead.x, pilot.overhead.y);
     }
 
     public static void main(String[] args){

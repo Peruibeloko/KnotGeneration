@@ -1,5 +1,7 @@
 package objectbased;
 
+import processing.core.PVector;
+
 class Wall {
 
     private static final int HORIZONTAL = 0;
@@ -55,17 +57,30 @@ class Wall {
 
     void collisionEmmit() {
 
-        if ((type == VERTICAL) &&
-                (pilot.pos.x == nodes[0].getPos().x) &&
-                (pilot.pos.y >= nodes[0].getPos().y && pilot.pos.y <= nodes[1].getPos().y)) {
+        PVector nextPos = pilot.nextPos();
+        if (type == VERTICAL) {
 
-            pilot.collisionEvent(0);
+            if (nextPos.y > nodes[0].getPos().y && nextPos.y < nodes[1].getPos().y)
+                if (Math.abs(nextPos.x - nodes[0].getPos().x) == Math.abs(pilot.pos.dist(nextPos))) {
 
-        } else if ((type == HORIZONTAL) &&
-                (pilot.pos.y == nodes[0].getPos().y) &&
-                (pilot.pos.x >= nodes[0].getPos().x && pilot.pos.x <= nodes[1].getPos().x)) {
+                    pilot.collisionEvent(0);
 
-            pilot.collisionEvent(1);
+                } else if (Math.abs(nextPos.x - nodes[0].getPos().x) < Math.abs(pilot.pos.dist(nextPos))) {
+
+                    pilot.collisionEvent(0, this);
+                }
+
+        } else if (type == HORIZONTAL) {
+
+            if (nextPos.x > nodes[0].getPos().x && nextPos.x < nodes[1].getPos().x)
+                if (Math.abs(nextPos.y - nodes[0].getPos().y) == Math.abs(pilot.pos.dist(nextPos))) {
+
+                    pilot.collisionEvent(1);
+
+                } else if (Math.abs(nextPos.y - nodes[0].getPos().y) < Math.abs(pilot.pos.dist(nextPos))) {
+
+                    pilot.collisionEvent(1, this);
+                }
         }
     }
 }
